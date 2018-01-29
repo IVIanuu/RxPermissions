@@ -85,6 +85,8 @@ class RxPermissionsFragment : Fragment(), PermissionRequester, Application.Activ
             hasRegisteredCallbacks = false
             this.act = null
         }
+
+        activePermissionFragments.remove(activity)
     }
 
     override fun request(vararg permissions: String): Maybe<Boolean> {
