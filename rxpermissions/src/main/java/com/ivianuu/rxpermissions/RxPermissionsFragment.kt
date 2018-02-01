@@ -108,7 +108,17 @@ class RxPermissionsFragment : Fragment(), PermissionRequester, Application.Activ
         val subject = PublishSubject.create<Boolean>()
         subjects[requestCode] = subject
 
-        requireActivity { requestPermissions(permissions, requestCode) }
+        requireActivity {
+            val granted = permissions
+                .all { activity.checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED }
+            if (granted) {
+                subjects.remove(requestCode)
+                subject.onNext(granted)
+                subject.onComplete()
+            } else {
+                requestPermissions(permissions, requestCode)
+            }
+        }
 
         return subject
             .take(1)
@@ -122,7 +132,7 @@ class RxPermissionsFragment : Fragment(), PermissionRequester, Application.Activ
 
         val granted = (0 until permissions.size)
             .map { grantResults[it] }
-            .none { it != PackageManager.PERMISSION_GRANTED }
+            .all { it == PackageManager.PERMISSION_GRANTED }
 
         subject.onNext(granted)
         subject.onComplete()
