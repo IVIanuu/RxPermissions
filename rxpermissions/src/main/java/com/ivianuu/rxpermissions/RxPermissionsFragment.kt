@@ -25,6 +25,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import io.reactivex.Maybe
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
 /**
@@ -94,21 +95,20 @@ class RxPermissionsFragment : Fragment(), PermissionRequester, Application.Activ
             return Maybe.just(true)
         }
 
+        if (activity != null) {
+            val granted = permissions
+                .all { activity.checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED }
+            if (granted) {
+                return Maybe.just(true)
+            }
+        }
+
         val requestCode = RequestCodeGenerator.generate()
 
         val subject = PublishSubject.create<Boolean>()
         subjects[requestCode] = subject
 
-        requireActivity {
-            val granted = permissions
-                .none { activity.checkSelfPermission(it) != PackageManager.PERMISSION_GRANTED }
-            if (granted) {
-                subjects.remove(requestCode)
-                subject.onNext(true)
-            } else {
-                requestPermissions(permissions, requestCode)
-            }
-        }
+        requireActivity { requestPermissions(permissions, requestCode) }
 
         return subject
             .take(1)
