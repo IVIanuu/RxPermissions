@@ -26,8 +26,6 @@ object RxPermissions {
     /**
      * Returns a new [PermissionRequester]
      */
-    fun get(activity: Activity): PermissionRequester {
-        return RxPermissionsFragment.get(activity)
-    }
+    fun get(activity: Activity) = RxPermissionsFragment.get(activity)
 
 }

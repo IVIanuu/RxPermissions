@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger
  */
 internal object RequestCodeGenerator {
 
-    private val seed = AtomicInteger(500)
+    private val codes = AtomicInteger(500)
 
-    internal fun generate() = seed.incrementAndGet()
+    internal fun generate() = codes.incrementAndGet()
 }

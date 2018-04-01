@@ -47,7 +47,7 @@ class RxPermissionsFragment : Fragment(), PermissionRequester, Application.Activ
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        requireActivityActions.reversed().forEach { it() }
+        requireActivityActions.reversed().forEach { it.invoke() }
         requireActivityActions.clear()
     }
 
@@ -131,7 +131,7 @@ class RxPermissionsFragment : Fragment(), PermissionRequester, Application.Activ
         val subject = subjects.remove(requestCode) ?: return
 
         val granted = (0 until permissions.size)
-            .map { grantResults[it] }
+            .map(grantResults::get)
             .all { it == PackageManager.PERMISSION_GRANTED }
 
         subject.onNext(granted)
