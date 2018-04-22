@@ -157,7 +157,7 @@ class RxPermissionsFragment : Fragment(), PermissionRequester, Application.Activ
     }
 
     companion object {
-        private const val TAG_FRAGMENT = "RxPermissionsFragment"
+        private const val TAG_FRAGMENT = "com.ivianuu.rxpermissions.RxPermissionsFragment"
 
         private val activePermissionFragments = HashMap<Activity, RxPermissionsFragment>()
 
