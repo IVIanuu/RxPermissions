@@ -25,12 +25,10 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import io.reactivex.Maybe
-import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
 /**
  * Handles the permission requests
- * This class is internal and you should not worry about it
  */
 class RxPermissionsFragment : Fragment(), PermissionRequester, Application.ActivityLifecycleCallbacks {
 

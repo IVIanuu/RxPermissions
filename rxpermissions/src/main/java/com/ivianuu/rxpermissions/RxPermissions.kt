@@ -23,9 +23,6 @@ import android.app.Activity
  */
 object RxPermissions {
 
-    /**
-     * Returns a new [PermissionRequester]
-     */
     fun get(activity: Activity) = RxPermissionsFragment.get(activity)
 
 }

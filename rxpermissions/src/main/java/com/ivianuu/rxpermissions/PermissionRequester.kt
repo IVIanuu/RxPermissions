@@ -19,13 +19,10 @@ package com.ivianuu.rxpermissions
 import io.reactivex.Maybe
 
 /**
- * Requests permissions and returns results as
+ * Requests permissions and returns results as maybe's
  */
 interface PermissionRequester {
 
-    /**
-     * Requests the permissions
-     */
     fun request(vararg permissions: String): Maybe<Boolean>
 
 }
