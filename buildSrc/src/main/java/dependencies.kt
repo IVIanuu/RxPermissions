@@ -25,5 +25,4 @@ object Deps {
     const val supportAppCompat = "com.android.support:appcompat-v7:${Versions.support}"
 
     const val rxJava = "io.reactivex.rxjava2:rxjava:${Versions.rxJava}"
-
 }
