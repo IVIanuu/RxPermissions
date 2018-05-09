@@ -19,11 +19,12 @@ package com.ivianuu.rxpermissions
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Application
-import android.app.Fragment
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import io.reactivex.Maybe
 import io.reactivex.subjects.PublishSubject
 
@@ -95,7 +96,7 @@ class RxPermissionsFragment : Fragment(), PermissionRequester, Application.Activ
 
         if (activity != null) {
             val granted = permissions
-                .all { activity.checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED }
+                .all { activity!!.checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED }
             if (granted) {
                 return Maybe.just(true)
             }
@@ -108,7 +109,7 @@ class RxPermissionsFragment : Fragment(), PermissionRequester, Application.Activ
 
         requireActivity {
             val granted = permissions
-                .all { activity.checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED }
+                .all { activity!!.checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED }
             if (granted) {
                 subjects.remove(requestCode)
                 subject.onNext(granted)
@@ -159,12 +160,13 @@ class RxPermissionsFragment : Fragment(), PermissionRequester, Application.Activ
 
         private val activePermissionFragments = HashMap<Activity, RxPermissionsFragment>()
 
-        internal fun get(activity: Activity): PermissionRequester {
+        internal fun get(activity: FragmentActivity): PermissionRequester {
             var permissionsFragment = findInActivity(activity)
             if (permissionsFragment == null) {
                 permissionsFragment = RxPermissionsFragment()
-                activity.fragmentManager.beginTransaction()
-                    .add(permissionsFragment, TAG_FRAGMENT).commit()
+                activity.supportFragmentManager.beginTransaction()
+                    .add(permissionsFragment, TAG_FRAGMENT)
+                    .commit()
             }
 
             permissionsFragment.registerActivityListener(activity)
@@ -172,10 +174,10 @@ class RxPermissionsFragment : Fragment(), PermissionRequester, Application.Activ
             return permissionsFragment
         }
 
-        private fun findInActivity(activity: Activity): RxPermissionsFragment? {
+        private fun findInActivity(activity: FragmentActivity): RxPermissionsFragment? {
             var permissionsFragment = activePermissionFragments[activity]
             if (permissionsFragment == null) {
-                permissionsFragment = activity.fragmentManager
+                permissionsFragment = activity.supportFragmentManager
                     .findFragmentByTag(TAG_FRAGMENT) as RxPermissionsFragment?
             }
 

@@ -16,13 +16,13 @@
 
 package com.ivianuu.rxpermissions
 
-import android.app.Activity
+import android.support.v4.app.FragmentActivity
 
 /**
  * Factory for [PermissionRequester]'s
  */
 object RxPermissions {
 
-    fun get(activity: Activity) = RxPermissionsFragment.get(activity)
+    fun get(activity: FragmentActivity) = RxPermissionsFragment.get(activity)
 
 }

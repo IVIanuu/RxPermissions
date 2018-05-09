@@ -30,10 +30,8 @@ android {
 }
 
 dependencies {
-    // Kotlin
+    api Deps.supportFragments
     api Deps.kotlinStdLib
-
-    // RxJava
     api Deps.rxJava
 }
 

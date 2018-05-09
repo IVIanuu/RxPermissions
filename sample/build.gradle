@@ -29,12 +29,7 @@ android {
 }
 
 dependencies {
-    // Android Support
     implementation Deps.supportAppCompat
-
-    // Kotlin
     implementation Deps.kotlinStdLib
-
-    // Rx Permissions
     implementation project(':rxpermissions')
 }
